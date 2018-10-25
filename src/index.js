@@ -1,56 +1,48 @@
-import { collectDefaultMetrics, register } from 'prom-client';
-import gcStats from 'prometheus-gc-stats';
-import http from 'http';
-import os from 'os';
+const promClient = require('prom-client');
+const gcStats = require('prometheus-gc-stats');
+const http = require('http');
+const os = require('os');
 
 /**
  * @param {Object} server
  * @param {Object} options
+ * @param {Object} [options.defaultMetrics] - @see https://www.npmjs.com/package/prom-client
  * @param {Function} next
  * @return {*}
  */
 function metricPlugin(server, options, next) {
-    const {
-        defaultMetrics = {},
-        metricRoute = '/metrics',
-        port = 7070,
-        log = console.log // eslint-disable-line no-console
-    } = options;
-    collectDefaultMetrics(defaultMetrics);
-    gcStats(register)();
-    createMetricExporter(metricRoute, port, log);
+    const { defaultMetrics = {} } = options;
+
+    promClient.collectDefaultMetrics(defaultMetrics);
+    gcStats(promClient.register)();
+    createMetricExporter();
 
     return next();
 }
 
 /**
- * @param {string} metricRoute
- * @param {int} port
- * @param {Function} log
+ * Starts server.
  */
-function createMetricExporter(metricRoute, port, log) {
-    try {
-        const metricServer = http.createServer((req, res) => {
-            if (req.method === 'GET' && req.url === metricRoute) {
-                res.writeHead(200);
-                res.end(register.metrics());
-                return;
-            }
+function createMetricExporter() {
+    const port = 7070;
+    http.createServer((req, res) => {
+        if (req.method === 'GET' && req.url === '/metrics') {
+            res.writeHead(200);
+            res.end(promClient.register.metrics());
+            return;
+        }
 
-            res.writeHead(404);
-            res.end();
-        });
-
-        metricServer.listen(port, () => {
-           log('info', `Metric server started: ${os.hostname()}:${port}`);
-        });
-    } catch (err) {
-       log('error', err);
-    }
+        res.writeHead(404);
+        res.end();
+    }).listen(port, () => {
+        console.log('info', `Metric server started: ${os.hostname()}:${port}`); // eslint-disable-line no-console
+    }).on('error', function (err) {
+        console.log('error', err); // eslint-disable-line no-console
+    });
 }
 
 metricPlugin.attributes = {
     name: 'metricPlugin'
 };
 
-export default metricPlugin;
+module.exports = metricPlugin;

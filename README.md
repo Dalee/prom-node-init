@@ -2,7 +2,7 @@
 
 Just a bit of automatization for hapi node projects.
 
-- Starts server on port 7070 which exposes metrics, route - /metrics (default settings)
+- Starts server on port 7070 which exposes metrics, route - /metrics
 
 - Probes default metrics with using prom-client
 
@@ -16,8 +16,6 @@ Example from glue manifest:
         register: 'prom-node-init',
         options: {
             defaultMetrics: { timeout: 5000 },
-            port: 7070, // override port
-            metricRoute: '/mymetrics' // override route
         }
     }
 }
