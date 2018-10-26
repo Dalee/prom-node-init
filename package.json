@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dalee/prom-node-init.git"
+    "url": "https://github.com/kvanderer/prom-node-init.git"
   },
   "engines": {
     "node": ">= 8"
