@@ -1,0 +1,33 @@
+{
+  "name": "prom-node-init",
+  "version": "1.0.0",
+  "description": "Simple library to automate prometheus metrics serving.",
+  "author": "Dalee IA <dev@dalee.ru>",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "prometheus",
+    "metrics"
+  ],
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dalee/prom-node-init.git"
+  },
+  "engines": {
+    "node": ">= 8"
+  },
+  "dependencies": {
+    "prom-client": "^11.1.3",
+    "prometheus-gc-stats": "^0.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-dalee": "^0.1.7"
+  }
+}
