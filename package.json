@@ -1,5 +1,5 @@
 {
-  "name": "prom-node-init",
+  "name": "@dalee/prom-node-init",
   "version": "1.0.0",
   "description": "Simple library to automate prometheus metrics serving.",
   "author": "Dalee IA <dev@dalee.ru>",
