@@ -13,7 +13,7 @@ Example from glue manifest:
 ```js
 {
     plugin: {
-        register: 'prom-node-init',
+        register: '@dalee/prom-node-init',
         options: {
             defaultMetrics: { timeout: 5000 },
         }
